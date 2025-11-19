@@ -32,11 +32,36 @@ if "demo_mode" not in st.session_state:
 # ===== END SESSION STATE INITIALIZATION =====
 
 # Azure OpenAI client
-client = AzureOpenAI(
+try:
+    st.info("🔄 Initializing Azure OpenAI client...")
+    
+    api_key = os.getenv("AZURE_OPENAI_API_KEY")
+    endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
+    deployment = os.getenv("AZURE_OPENAI_DEPLOYMENT")
+    api_version = os.getenv("AZURE_OPENAI_API_VERSION")
+    
+    # Show what we're using
+    st.write(f"Using endpoint: `{endpoint}`")
+    st.write(f"Using API version: `{api_version}`")
+
+    client = AzureOpenAI(
     api_key=os.getenv("AZURE_OPENAI_API_KEY"),
     azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
     api_version=os.getenv("AZURE_OPENAI_API_VERSION"),
 )
+    
+    st.success("✅ Client initialized successfully!")
+    
+except TypeError as e:
+    st.error(f"❌ **TypeError during initialization:**")
+    st.code(str(e))
+    st.warning("This usually means incompatible library versions or invalid parameters")
+    st.stop()
+    
+except Exception as e:
+    st.error(f"❌ **Unexpected error:**")
+    st.code(f"{type(e).__name__}: {str(e)}")
+    st.stop()
 # ===== ERROR-SAFE AI CALL WRAPPER =====
 def safe_ai_call(system_prompt: str, user_content: str, operation_name: str, max_tokens: int = 2000) -> str:
     """
