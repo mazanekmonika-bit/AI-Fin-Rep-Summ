@@ -32,39 +32,11 @@ if "demo_mode" not in st.session_state:
 # ===== END SESSION STATE INITIALIZATION =====
 
 # Azure OpenAI client
-import streamlit as st
-
-st.subheader("🔍 Debug: Environment Variables")
-endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
-api_key = os.getenv("AZURE_OPENAI_API_KEY")
-deployment = os.getenv("AZURE_OPENAI_DEPLOYMENT")
-api_version = os.getenv("AZURE_OPENAI_API_VERSION")
-
-st.write(f"**API Key exists:** {bool(api_key)}")
-st.write(f"**API Key length:** {len(api_key) if api_key else 0}")
-st.write(f"**Endpoint:** `{endpoint}`")
-st.write(f"**Endpoint length:** {len(endpoint) if endpoint else 0}")
-st.write(f"**Deployment:** `{deployment}`")
-st.write(f"**API Version:** `{api_version}`")
-
-# Check for common issues
-if endpoint:
-    if not endpoint.startswith("https://"):
-        st.error("❌ Endpoint missing 'https://'")
-    if not endpoint.endswith("/"):
-        st.warning("⚠️ Endpoint missing trailing '/'")
-    if ".cognitiveservices." in endpoint:
-        st.error("❌ Wrong endpoint domain")
-
-st.stop()  # This stops the app here so we can see the debug info
-
-# Azure OpenAI client (this won't run until you remove st.stop() above)
 client = AzureOpenAI(
     api_key=os.getenv("AZURE_OPENAI_API_KEY"),
     azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
     api_version=os.getenv("AZURE_OPENAI_API_VERSION"),
 )
-# ===== END DEBUG CODE =====
 # ===== ERROR-SAFE AI CALL WRAPPER =====
 def safe_ai_call(system_prompt: str, user_content: str, operation_name: str, max_tokens: int = 2000) -> str:
     """
