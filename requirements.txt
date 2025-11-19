@@ -3,7 +3,7 @@ openai==1.12.0
 azure-ai-documentintelligence==3.3.0
 azure-core==1.29.0
 azure-identity==1.17.1
-streamlit==1.28.0
+streamlit==1.39.0
 python-docx==0.8.11
 reportlab==4.0.0
 rich==13.9.4
