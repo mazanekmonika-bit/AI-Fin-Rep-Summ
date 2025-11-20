@@ -21,14 +21,14 @@ def extract_text_from_pdf(file_bytes: bytes) -> str:
         Exception: If OCR processing fails
     """
     # Get Azure Document Intelligence credentials
-    endpoint = os.getenv("AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT")
-    api_key = os.getenv("AZURE_DOCUMENT_INTELLIGENCE_KEY")
+    endpoint = os.getenv("AZURE_DI_ENDPOINT")
+    api_key = os.getenv("AZURE_DI_KEY")
     
     if not endpoint or not api_key:
         raise ValueError(
             "Missing Azure Document Intelligence credentials. "
-            "Please set AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT and "
-            "AZURE_DOCUMENT_INTELLIGENCE_KEY in your .env file"
+            "Please set AZURE_DI_ENDPOINT and "
+            "AZURE_DI_KEY in your .env file"
         )
     
     try:
